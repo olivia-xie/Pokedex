@@ -1,6 +1,7 @@
 package com.example.pokedex.Data;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,9 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.pokedex.Activities.DetailActivity;
 import com.example.pokedex.Models.Pokemon;
 import com.example.pokedex.R;
 import com.squareup.picasso.Picasso;
+
+import java.io.Serializable;
 
 public class PokemonRecyclerViewAdapter extends RecyclerView.Adapter<PokemonRecyclerViewAdapter.ViewHolder> {
 
@@ -90,7 +94,7 @@ public class PokemonRecyclerViewAdapter extends RecyclerView.Adapter<PokemonRecy
         TextView abilities;
         TextView type;
 
-        public ViewHolder(@NonNull View itemView, Context ctx) {
+        public ViewHolder(@NonNull View itemView, final Context ctx) {
             super(itemView);
             context = ctx;
 
@@ -104,13 +108,18 @@ public class PokemonRecyclerViewAdapter extends RecyclerView.Adapter<PokemonRecy
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "Row Tapped", Toast.LENGTH_LONG).show();
+
+                    Intent intent = new Intent(context, DetailActivity.class);
+                    intent.putExtra("pokemon", (Serializable) pokemon);
+                    ctx.startActivity(intent);
+
                 }
             });
         }
 
         @Override
         public void onClick(View v) {
+
 
         }
     }
