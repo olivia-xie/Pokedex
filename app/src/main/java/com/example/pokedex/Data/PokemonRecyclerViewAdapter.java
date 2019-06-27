@@ -3,12 +3,14 @@ package com.example.pokedex.Data;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.pokedex.Models.Pokemon;
 import com.example.pokedex.R;
 import com.squareup.picasso.Picasso;
@@ -35,15 +37,43 @@ public class PokemonRecyclerViewAdapter extends RecyclerView.Adapter<PokemonRecy
     @Override
     public void onBindViewHolder(@NonNull PokemonRecyclerViewAdapter.ViewHolder viewHolder, int position) {
 
-        String imageLink = pokemon.getImage();
-        viewHolder.name.setText(pokemon.getName());
-        viewHolder.height.setText("Height: " + pokemon.getHeight() + " dm");
-        Picasso.with(context).load(imageLink).into(viewHolder.image);
+        if ((pokemon.getAbilities() != null) && (pokemon.getName() != null) && (pokemon.getIndexNum() != null) && (pokemon.getType() != null)) {
 
-        // formatting index number
-        String indexNum = String.format("%3s", pokemon.getIndexNum());
-        indexNum = indexNum.replace(' ', '0');
-        viewHolder.index.setText("#" + indexNum.replace(' ', '0'));
+            String pokemonName = pokemon.getName().substring(0, 1).toUpperCase() + pokemon.getName().substring(1).toLowerCase();
+            viewHolder.name.setText(pokemonName);
+            String imageLink = pokemon.getImage();
+            Picasso.with(context).load(imageLink).into(viewHolder.image);
+
+            // formatting index number
+            String indexNum = String.format("%3s", pokemon.getIndexNum());
+            indexNum = indexNum.replace(' ', '0');
+            viewHolder.index.setText("#" + indexNum.replace(' ', '0'));
+
+            // Setting ability text
+            String abilitiesText = "Abilities: ";
+            for (String ability : pokemon.getAbilities()) {
+
+                if (pokemon.getAbilities().indexOf(ability) == (pokemon.getAbilities().size() - 1)) {
+                    abilitiesText += ability.substring(0, 1).toUpperCase() + ability.substring(1).toLowerCase();
+                } else {
+                    abilitiesText += ability.substring(0, 1).toUpperCase() + ability.substring(1).toLowerCase() + ", ";
+                }
+            }
+            viewHolder.abilities.setText(abilitiesText);
+
+            // Setting Type text
+            String typeText = "Type: ";
+            for (String type : pokemon.getType()) {
+
+                if (pokemon.getType().indexOf(type) == (pokemon.getType().size() - 1)) {
+                    typeText += type.substring(0, 1).toUpperCase() + type.substring(1).toLowerCase();
+                } else {
+                    typeText += type.substring(0, 1).toUpperCase() + type.substring(1).toLowerCase() + ", ";
+                }
+            }
+            viewHolder.type.setText(typeText);
+
+        }
 
     }
 
@@ -57,7 +87,8 @@ public class PokemonRecyclerViewAdapter extends RecyclerView.Adapter<PokemonRecy
         TextView name;
         ImageView image;
         TextView index;
-        TextView height;
+        TextView abilities;
+        TextView type;
 
         public ViewHolder(@NonNull View itemView, Context ctx) {
             super(itemView);
@@ -67,7 +98,8 @@ public class PokemonRecyclerViewAdapter extends RecyclerView.Adapter<PokemonRecy
             name = itemView.findViewById(R.id.pokemonNameId);
             image = itemView.findViewById(R.id.pokemonImageId);
             index = itemView.findViewById(R.id.indexId);
-            height = itemView.findViewById(R.id.heightId);
+            abilities = itemView.findViewById(R.id.abilitiesId);
+            type = itemView.findViewById(R.id.typeId);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -18,12 +18,13 @@
                 android:id="@+id/pokemonImageId"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
-                android:background="@color/design_default_color_primary" />
+                android:background="@android:color/white"
+                />
 
             <TextView
                 android:id="@+id/indexId"
-                android:paddingLeft="10dp"
-                android:text="01"
+                android:paddingLeft="15dp"
+                android:text="# Pokedex Id"
                 android:textStyle="bold"
                 android:layout_toRightOf="@id/pokemonImageId"
                 android:layout_width="wrap_content"
@@ -35,22 +36,32 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/indexId"
                 android:layout_toRightOf="@id/pokemonImageId"
-                android:paddingLeft="10dp"
+                android:paddingLeft="15dp"
                 android:paddingTop="5dp"
                 android:text="Pokemon Name"
-                android:textAllCaps="true"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/heightId"
+                android:id="@+id/abilitiesId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
-                android:paddingLeft="10dp"
+                android:paddingLeft="15dp"
                 android:textSize="12sp"
                 android:layout_below="@id/pokemonNameId"
                 android:layout_toRightOf="@id/pokemonImageId"
-                android:text="Height:"/>
+                android:text="Abilities:"/>
+
+            <TextView
+                android:id="@+id/typeId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingLeft="15dp"
+                android:textSize="12sp"
+                android:layout_below="@id/abilitiesId"
+                android:layout_toRightOf="@id/pokemonImageId"
+                android:text="Type"/>
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>

@@ -1,4 +1,4 @@
-package com.example.pokedex.Util;
+package com.example.pokedex.Utility;
 
 public class Constants {
 

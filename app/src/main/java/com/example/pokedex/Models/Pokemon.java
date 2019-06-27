@@ -1,6 +1,8 @@
 package com.example.pokedex.Models;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class Pokemon implements Serializable {
 
@@ -8,12 +10,13 @@ public class Pokemon implements Serializable {
 
     private String name;
     private String indexNum;
-    private String[] abilities;
+    private ArrayList<String> abilities;
     private String height;
     private String gender;
     private String weight;
     private String colour;
     private String image;
+    private ArrayList<String> type;
 
     // Constructor
     public Pokemon() {
@@ -36,11 +39,11 @@ public class Pokemon implements Serializable {
         this.indexNum = indexNum;
     }
 
-    public String[] getAbilities() {
+    public ArrayList<String> getAbilities() {
         return abilities;
     }
 
-    public void setAbilities(String[] abilities) {
+    public void setAbilities(ArrayList<String> abilities) {
         this.abilities = abilities;
     }
 
@@ -82,6 +85,14 @@ public class Pokemon implements Serializable {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public ArrayList<String> getType() {
+        return type;
+    }
+
+    public void setType(ArrayList<String> type) {
+        this.type = type;
     }
 }
 

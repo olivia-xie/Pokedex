@@ -1,4 +1,4 @@
-package com.example.pokedex.Util;
+package com.example.pokedex.Utility;
 
 import android.app.Activity;
 import android.content.SharedPreferences;

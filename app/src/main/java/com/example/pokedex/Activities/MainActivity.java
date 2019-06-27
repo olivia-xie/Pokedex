@@ -3,7 +3,6 @@ package com.example.pokedex.Activities;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,18 +23,18 @@ import com.android.volley.toolbox.Volley;
 import com.example.pokedex.Data.PokemonRecyclerViewAdapter;
 import com.example.pokedex.Models.Pokemon;
 import com.example.pokedex.R;
-import com.example.pokedex.Util.Constants;
-import com.example.pokedex.Util.Prefs;
+import com.example.pokedex.Utility.Constants;
+import com.example.pokedex.Utility.Prefs;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Initializing views and variables
     private RecyclerView recyclerView;
     private PokemonRecyclerViewAdapter pokemonRecyclerViewAdapter;
     private Pokemon pokemon;
@@ -79,26 +78,26 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+
     }
 
+    // Opening Search alert dialog from menu Search button
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.menu_search) {
+
+            showInputDialog();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    // Creating the Search alert dialog
     public void showInputDialog() {
 
         alertDialogBuilder = new AlertDialog.Builder(this);
@@ -118,12 +117,11 @@ public class MainActivity extends AppCompatActivity {
 
                 if (!newSearchEdit.getText().toString().isEmpty()) {
 
-                String search = newSearchEdit.getText().toString().toLowerCase();
-                Log.d("search term: ", search);
-                prefs.setSearch(search);
-                getPokemon(search);
+                    String search = newSearchEdit.getText().toString().toLowerCase().trim();
+                    prefs.setSearch(search);
+                    getPokemon(search);
 
-                pokemonRecyclerViewAdapter.notifyDataSetChanged();
+                    pokemonRecyclerViewAdapter.notifyDataSetChanged();
 
                 }
 
@@ -132,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // getting pokemon from search
+    // Makes http request to Pokeapi and retrieves Json data to store in Pokemon object
     public Pokemon getPokemon(final String searchTerm) {
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LEFT + searchTerm + Constants.URL_RIGHT, null,
@@ -146,10 +144,37 @@ public class MainActivity extends AppCompatActivity {
 
                             pokemon.setName(pokemonObject.getString("name"));
                             pokemon.setIndexNum(pokemonObject.getString("id"));
-                            pokemon.setHeight(pokemonObject.getString("height"));
                             pokemon.setImage(pokemonSprites.getString("front_default"));
 
-                            Log.d("name: ", pokemon.getName());
+                            // Getting pokemon abilities
+                            JSONArray getAbilitiesArray = pokemonObject.getJSONArray("abilities");
+                            ArrayList<String> newAbilitiesArray = new ArrayList<>();
+                            JSONObject abilityObject;
+                            JSONObject abilityName;
+
+                            for (int i = 0; i < getAbilitiesArray.length(); i++) {
+
+                                abilityObject = getAbilitiesArray.getJSONObject(i);
+                                abilityName = abilityObject.getJSONObject("ability");
+                                newAbilitiesArray.add(abilityName.getString("name"));
+
+                            }
+                            pokemon.setAbilities(newAbilitiesArray);
+
+                            // Getting pokemon types
+                            JSONArray getTypeArray = pokemonObject.getJSONArray("types");
+                            ArrayList<String> newTypeArray = new ArrayList<>();
+                            JSONObject typeObject;
+                            JSONObject typeName;
+
+                            for (int i = 0; i < getTypeArray.length(); i++) {
+
+                                typeObject = getTypeArray.getJSONObject(i);
+                                typeName = typeObject.getJSONObject("type");
+                                newTypeArray.add(typeName.getString("name"));
+
+                            }
+                            pokemon.setType(newTypeArray);
 
                             pokemonRecyclerViewAdapter.notifyDataSetChanged();
 
@@ -160,6 +185,8 @@ public class MainActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+
+                Log.d("Response Error", error.toString());
 
             }
         });
