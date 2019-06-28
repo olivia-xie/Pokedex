@@ -1,7 +1,6 @@
 package com.example.pokedex.Models;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Pokemon implements Serializable {
@@ -12,17 +11,19 @@ public class Pokemon implements Serializable {
     private String indexNum;
     private ArrayList<String> abilities;
     private String height;
-    private String gender;
     private String weight;
-    private String colour;
     private String image;
     private ArrayList<String> type;
+    private String flavorText;
+    private String evolvesFrom;
 
     // Constructor
     public Pokemon() {
     }
 
     // Getters and Setters
+
+    // from pokemon object
     public String getName() {
         return name;
     }
@@ -55,28 +56,12 @@ public class Pokemon implements Serializable {
         this.height = height;
     }
 
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
     public String getWeight() {
         return weight;
     }
 
     public void setWeight(String weight) {
         this.weight = weight;
-    }
-
-    public String getColour() {
-        return colour;
-    }
-
-    public void setColour(String colour) {
-        this.colour = colour;
     }
 
     public String getImage() {
@@ -93,6 +78,23 @@ public class Pokemon implements Serializable {
 
     public void setType(ArrayList<String> type) {
         this.type = type;
+    }
+
+    // from pokemon-species object
+    public String getFlavorText() {
+        return flavorText;
+    }
+
+    public void setFlavorText(String flavorText) {
+        this.flavorText = flavorText;
+    }
+
+    public String getEvolvesFrom() {
+        return evolvesFrom;
+    }
+
+    public void setEvolvesFrom(String evolvesFrom) {
+        this.evolvesFrom = evolvesFrom;
     }
 }
 

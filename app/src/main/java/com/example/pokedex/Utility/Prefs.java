@@ -18,6 +18,6 @@ public class Prefs {
     }
 
     public String getSearch() {
-        return sharedPreferences.getString("search", "ditto");
+        return sharedPreferences.getString("search", "bulbasaur");
     }
 }

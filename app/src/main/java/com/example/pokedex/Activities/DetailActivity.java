@@ -1,6 +1,5 @@
 package com.example.pokedex.Activities;
 
-import android.app.DownloadManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,13 +21,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 public class DetailActivity extends AppCompatActivity {
 
     private Pokemon pokemon;
     private ImageView pokemonImageView;
     private TextView nameTextView;
+    private TextView flavorTextView;
+    private TextView heightTextView;
+    private TextView weightTextView;
+    private TextView evolvesFromTextView;
 
     private RequestQueue requestQueue;
 
@@ -42,12 +43,68 @@ public class DetailActivity extends AppCompatActivity {
         pokemon = (Pokemon) getIntent().getSerializableExtra("pokemon");
 
         setUpUI();
-        getPokemonDetails(pokemon.getName());
+        getPokemonSpeciesDetails(pokemon.getName());
+
     }
 
+    // Gets information from Pokemon Species object
+    private void getPokemonSpeciesDetails(String searchTerm) {
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.SPECIES_URL_LEFT + searchTerm + Constants.URL_RIGHT, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject pokemonObject) {
+
+                try {
+
+                    // Getting flavor text
+                    JSONArray flavorTextArray = pokemonObject.getJSONArray("flavor_text_entries");
+                    flavorTextView.setText(flavorTextArray.getJSONObject(2).getString("flavor_text"));
+
+                    // Getting previous pokemon from evolution
+                    if (pokemonObject.getString("evolves_from_species") != null) {
+                        evolvesFromTextView.setText(pokemonObject.getString("evolves_from_species").toUpperCase());
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+    }
+
+    // Gets information from Pokemon object
     private void getPokemonDetails(String searchTerm) {
-        Log.d("get pokemon details", "entered");
-        Log.d("search term", searchTerm);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.POKEMON_URL_LEFT + searchTerm + Constants.URL_RIGHT, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject pokemonObject) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+    }
+
+    // Sets views and other UI stuff
+    private void setUpUI() {
+
+        pokemonImageView = findViewById(R.id.detailImageId);
+        nameTextView = findViewById(R.id.detailNameId);
+        flavorTextView = findViewById(R.id.detailFlavorTextId);
+        weightTextView = findViewById(R.id.detailWeightId);
+        heightTextView = findViewById(R.id.detailHeightId);
+        evolvesFromTextView = findViewById(R.id.detailEvolvesFromId);
 
         // Setting index num
         String indexNum = String.format("%3s", pokemon.getIndexNum());
@@ -55,13 +112,6 @@ public class DetailActivity extends AppCompatActivity {
 
         Picasso.with(getApplicationContext()).load(pokemon.getImage()).into(pokemonImageView);
         nameTextView.setText("#" + indexNum + " - " + pokemon.getName().toUpperCase());
-
-    }
-
-    private void setUpUI() {
-
-        pokemonImageView = findViewById(R.id.detailImageId);
-        nameTextView = findViewById(R.id.detailNameId);
 
     }
 }

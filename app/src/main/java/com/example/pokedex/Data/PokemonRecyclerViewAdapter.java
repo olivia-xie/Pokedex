@@ -4,13 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.pokedex.Activities.DetailActivity;
 import com.example.pokedex.Models.Pokemon;
@@ -18,15 +16,19 @@ import com.example.pokedex.R;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import static com.example.pokedex.Utility.StringFunctions.formatIndexNum;
+import static com.example.pokedex.Utility.StringFunctions.formatList;
 
 public class PokemonRecyclerViewAdapter extends RecyclerView.Adapter<PokemonRecyclerViewAdapter.ViewHolder> {
 
     private Context context;
-    private Pokemon pokemon;
+    private ArrayList<Pokemon> pokemonList;
 
-    public PokemonRecyclerViewAdapter(Context context, Pokemon aPokemon) {
+    public PokemonRecyclerViewAdapter(Context context, ArrayList<Pokemon> listPokemon) {
         this.context = context;
-        pokemon = aPokemon;
+        pokemonList = listPokemon;
     }
 
     @NonNull
@@ -41,40 +43,26 @@ public class PokemonRecyclerViewAdapter extends RecyclerView.Adapter<PokemonRecy
     @Override
     public void onBindViewHolder(@NonNull PokemonRecyclerViewAdapter.ViewHolder viewHolder, int position) {
 
+        Pokemon pokemon = pokemonList.get(position);
+
         if ((pokemon.getAbilities() != null) && (pokemon.getName() != null) && (pokemon.getIndexNum() != null) && (pokemon.getType() != null)) {
 
-            String pokemonName = pokemon.getName().substring(0, 1).toUpperCase() + pokemon.getName().substring(1).toLowerCase();
+            String pokemonName = pokemon.getName().toUpperCase();
             viewHolder.name.setText(pokemonName);
             String imageLink = pokemon.getImage();
             Picasso.with(context).load(imageLink).into(viewHolder.image);
 
             // formatting index number
-            String indexNum = String.format("%3s", pokemon.getIndexNum());
-            indexNum = indexNum.replace(' ', '0');
-            viewHolder.index.setText("#" + indexNum.replace(' ', '0'));
+            viewHolder.index.setText("#" + formatIndexNum(pokemon.getIndexNum()));
 
             // Setting ability text
             String abilitiesText = "Abilities: ";
-            for (String ability : pokemon.getAbilities()) {
-
-                if (pokemon.getAbilities().indexOf(ability) == (pokemon.getAbilities().size() - 1)) {
-                    abilitiesText += ability.substring(0, 1).toUpperCase() + ability.substring(1).toLowerCase();
-                } else {
-                    abilitiesText += ability.substring(0, 1).toUpperCase() + ability.substring(1).toLowerCase() + ", ";
-                }
-            }
+            abilitiesText = formatList(pokemon.getAbilities(), abilitiesText);
             viewHolder.abilities.setText(abilitiesText);
 
             // Setting Type text
             String typeText = "Type: ";
-            for (String type : pokemon.getType()) {
-
-                if (pokemon.getType().indexOf(type) == (pokemon.getType().size() - 1)) {
-                    typeText += type.substring(0, 1).toUpperCase() + type.substring(1).toLowerCase();
-                } else {
-                    typeText += type.substring(0, 1).toUpperCase() + type.substring(1).toLowerCase() + ", ";
-                }
-            }
+            typeText = formatList(pokemon.getType(), typeText);
             viewHolder.type.setText(typeText);
 
         }
@@ -83,7 +71,11 @@ public class PokemonRecyclerViewAdapter extends RecyclerView.Adapter<PokemonRecy
 
     @Override
     public int getItemCount() {
-        return 1;
+        if (pokemonList!= null) {
+            return pokemonList.size();
+        } else {
+            return 0;
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -108,6 +100,8 @@ public class PokemonRecyclerViewAdapter extends RecyclerView.Adapter<PokemonRecy
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    Pokemon pokemon = pokemonList.get(getAdapterPosition());
 
                     Intent intent = new Intent(context, DetailActivity.class);
                     intent.putExtra("pokemon", (Serializable) pokemon);

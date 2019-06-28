@@ -33,14 +33,46 @@
         android:layout_marginRight="152dp"
         android:layout_marginBottom="299dp"
         android:text="pokemon name"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textStyle="bold"
+        android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailImageId"
         app:layout_constraintVertical_bias="0.034"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:fontFamily="@font/prstart"/>
+
+    <TextView
+        android:id="@+id/detailHeightId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/prstartk"/>
+
+    <TextView
+        android:id="@+id/detailWeightId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/prstartk"/>
+
+    <TextView
+        android:id="@+id/detailFlavorTextId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/prstartk"/>
+
+    <TextView
+        android:id="@+id/detailEvolvesFromId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/prstartk"/>
+
+    <TextView
+        android:id="@+id/detailAbilitiesId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/prstartk"/>
 
 </android.support.constraint.ConstraintLayout>

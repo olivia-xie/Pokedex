@@ -3,6 +3,7 @@ package com.example.pokedex.Activities;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private RequestQueue queue;
     private AlertDialog.Builder alertDialogBuilder;
     private AlertDialog dialog;
+    private ArrayList<Pokemon> pokemonList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +67,14 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        pokemonList = new ArrayList<>();
         pokemon = new Pokemon();
 
-        Prefs prefs = new Prefs(MainActivity.this);
-        String search = prefs.getSearch();
-        pokemon = getPokemon(search);
+        //Prefs prefs = new Prefs(MainActivity.this);
+        //String search = prefs.getSearch();
+        pokemonList = getAllPokemon();
 
-        pokemonRecyclerViewAdapter = new PokemonRecyclerViewAdapter(this, pokemon);
+        pokemonRecyclerViewAdapter = new PokemonRecyclerViewAdapter(this, pokemonList);
         recyclerView.setAdapter(pokemonRecyclerViewAdapter);
         pokemonRecyclerViewAdapter.notifyDataSetChanged();
     }
@@ -130,10 +133,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // Makes http request to Pokeapi and retrieves Json data to store in Pokemon object
+    // Retrieves the specified pokemon from user search
     public Pokemon getPokemon(final String searchTerm) {
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LEFT + searchTerm + Constants.URL_RIGHT, null,
+        pokemonList.clear();
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.POKEMON_URL_LEFT + searchTerm + Constants.URL_RIGHT, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject pokemonObject) {
@@ -176,6 +181,8 @@ public class MainActivity extends AppCompatActivity {
                             }
                             pokemon.setType(newTypeArray);
 
+                            pokemonList.add(pokemon);
+
                             pokemonRecyclerViewAdapter.notifyDataSetChanged();
 
                         } catch (JSONException e) {
@@ -186,13 +193,83 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Log.d("Response Error", error.toString());
-
             }
         });
 
         queue.add(jsonObjectRequest);
         return pokemon;
+
+    }
+
+    // Retrieves all pokemon to display on application start up
+    public ArrayList<Pokemon> getAllPokemon() {
+
+        for (int i = 1; i <= Constants.NUM_POKEMON; i++) {
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.POKEMON_URL_LEFT + i, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject pokemonObject) {
+
+                    try {
+
+                        Pokemon newPokemon = new Pokemon();
+
+                        JSONObject pokemonSprites = pokemonObject.getJSONObject("sprites");
+
+                        newPokemon.setName(pokemonObject.getString("name"));
+                        newPokemon.setIndexNum(pokemonObject.getString("id"));
+                        newPokemon.setImage(pokemonSprites.getString("front_default"));
+
+                        // Getting pokemon abilities
+                        JSONArray getAbilitiesArray = pokemonObject.getJSONArray("abilities");
+                        ArrayList<String> newAbilitiesArray = new ArrayList<>();
+                        JSONObject abilityObject;
+                        JSONObject abilityName;
+
+                        for (int i = 0; i < getAbilitiesArray.length(); i++) {
+
+                            abilityObject = getAbilitiesArray.getJSONObject(i);
+                            abilityName = abilityObject.getJSONObject("ability");
+                            newAbilitiesArray.add(abilityName.getString("name"));
+
+                        }
+                        newPokemon.setAbilities(newAbilitiesArray);
+
+                        // Getting pokemon types
+                        JSONArray getTypeArray = pokemonObject.getJSONArray("types");
+                        ArrayList<String> newTypeArray = new ArrayList<>();
+                        JSONObject typeObject;
+                        JSONObject typeName;
+
+                        for (int i = 0; i < getTypeArray.length(); i++) {
+
+                            typeObject = getTypeArray.getJSONObject(i);
+                            typeName = typeObject.getJSONObject("type");
+                            newTypeArray.add(typeName.getString("name"));
+
+                        }
+                        newPokemon.setType(newTypeArray);
+
+                        pokemonList.add(newPokemon);
+
+                        pokemonRecyclerViewAdapter.notifyDataSetChanged();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+
+            queue.add(jsonObjectRequest);
+        }
+
+        return pokemonList;
 
     }
 }
