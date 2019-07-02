@@ -8,6 +8,12 @@
     tools:context=".Activities.MainActivity"
     tools:showIn="@layout/activity_main">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/checkered_bg"
+        android:scaleType="centerCrop"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewId"
         android:layout_width="0dp"

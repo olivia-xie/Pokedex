@@ -70,8 +70,6 @@ public class MainActivity extends AppCompatActivity {
         pokemonList = new ArrayList<>();
         pokemon = new Pokemon();
 
-        //Prefs prefs = new Prefs(MainActivity.this);
-        //String search = prefs.getSearch();
         pokemonList = getAllPokemon();
 
         pokemonRecyclerViewAdapter = new PokemonRecyclerViewAdapter(this, pokemonList);

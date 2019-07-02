@@ -56,12 +56,12 @@ public class PokemonRecyclerViewAdapter extends RecyclerView.Adapter<PokemonRecy
             viewHolder.index.setText("#" + formatIndexNum(pokemon.getIndexNum()));
 
             // Setting ability text
-            String abilitiesText = "Abilities: ";
+            String abilitiesText = "ABILITIES: ";
             abilitiesText = formatList(pokemon.getAbilities(), abilitiesText);
             viewHolder.abilities.setText(abilitiesText);
 
             // Setting Type text
-            String typeText = "Type: ";
+            String typeText = "TYPE: ";
             typeText = formatList(pokemon.getType(), typeText);
             viewHolder.type.setText(typeText);
 
