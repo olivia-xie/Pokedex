@@ -99,19 +99,14 @@ public class DetailActivity extends AppCompatActivity {
     // Sets views and other UI stuff
     private void setUpUI() {
 
-        pokemonImageView = findViewById(R.id.detailImageId);
-        nameTextView = findViewById(R.id.detailNameId);
-        flavorTextView = findViewById(R.id.detailFlavorTextId);
-        weightTextView = findViewById(R.id.detailWeightId);
-        heightTextView = findViewById(R.id.detailHeightId);
-        evolvesFromTextView = findViewById(R.id.detailEvolvesFromId);
+        pokemonImageView = findViewById(R.id.detailImageViewId);
 
         // Setting index num
         String indexNum = String.format("%3s", pokemon.getIndexNum());
         indexNum = indexNum.replace(' ', '0');
 
         Picasso.with(getApplicationContext()).load(pokemon.getImage()).into(pokemonImageView);
-        nameTextView.setText("#" + indexNum + " - " + pokemon.getName().toUpperCase());
+        //nameTextView.setText("#" + indexNum + " - " + pokemon.getName().toUpperCase());
 
     }
 }

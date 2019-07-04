@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class StringFunctions {
 
     // formatting list
-    public static String formatList (ArrayList<String> list, String string) {
+    public static String formatList(ArrayList<String> list, String string) {
 
         for (String item : list) {
 
@@ -20,7 +20,7 @@ public class StringFunctions {
     }
 
     // formatting index number
-    public static String formatIndexNum (String number) {
+    public static String formatIndexNum(String number) {
 
         String indexNum = String.format("%3s", number);
         indexNum = indexNum.replace(' ', '0');
