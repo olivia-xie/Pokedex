@@ -1,12 +1,14 @@
 package com.example.pokedex.Activities;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,11 +39,11 @@ public class MainActivity extends AppCompatActivity {
     // Initializing views and variables
     private RecyclerView recyclerView;
     private PokemonRecyclerViewAdapter pokemonRecyclerViewAdapter;
-    private Pokemon pokemon;
     private RequestQueue queue;
     private AlertDialog.Builder alertDialogBuilder;
     private AlertDialog dialog;
     private ArrayList<Pokemon> pokemonList;
+    private Pokemon searchedPokemon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         pokemonList = new ArrayList<>();
-        pokemon = new Pokemon();
+        searchedPokemon = new Pokemon();
 
         pokemonList = getAllPokemon();
 
@@ -117,84 +120,19 @@ public class MainActivity extends AppCompatActivity {
                 if (!newSearchEdit.getText().toString().isEmpty()) {
 
                     String search = newSearchEdit.getText().toString().toLowerCase().trim();
-                    prefs.setSearch(search);
-                    getPokemon(search);
 
-                    pokemonRecyclerViewAdapter.notifyDataSetChanged();
+                    Intent intent = new Intent(MainActivity.this, SearchResultActivity.class);
+                    intent.putExtra("searchTerm", search);
+
+                    dialog.dismiss();
+
+                    startActivity(intent);
 
                 }
 
                 dialog.dismiss();
             }
         });
-    }
-
-    // Retrieves the specified pokemon from user search
-    public Pokemon getPokemon(final String searchTerm) {
-
-        pokemonList.clear();
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.POKEMON_URL_LEFT + searchTerm + Constants.URL_RIGHT, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject pokemonObject) {
-
-                        try {
-
-                            JSONObject pokemonSprites = pokemonObject.getJSONObject("sprites");
-
-                            pokemon.setName(pokemonObject.getString("name"));
-                            pokemon.setIndexNum(pokemonObject.getString("id"));
-                            pokemon.setImage(pokemonSprites.getString("front_default"));
-
-                            // Getting pokemon abilities
-                            JSONArray getAbilitiesArray = pokemonObject.getJSONArray("abilities");
-                            ArrayList<String> newAbilitiesArray = new ArrayList<>();
-                            JSONObject abilityObject;
-                            JSONObject abilityName;
-
-                            for (int i = 0; i < getAbilitiesArray.length(); i++) {
-
-                                abilityObject = getAbilitiesArray.getJSONObject(i);
-                                abilityName = abilityObject.getJSONObject("ability");
-                                newAbilitiesArray.add(abilityName.getString("name"));
-
-                            }
-                            pokemon.setAbilities(newAbilitiesArray);
-
-                            // Getting pokemon types
-                            JSONArray getTypeArray = pokemonObject.getJSONArray("types");
-                            ArrayList<String> newTypeArray = new ArrayList<>();
-                            JSONObject typeObject;
-                            JSONObject typeName;
-
-                            for (int i = 0; i < getTypeArray.length(); i++) {
-
-                                typeObject = getTypeArray.getJSONObject(i);
-                                typeName = typeObject.getJSONObject("type");
-                                newTypeArray.add(typeName.getString("name"));
-
-                            }
-                            pokemon.setType(newTypeArray);
-
-                            pokemonList.add(pokemon);
-
-                            pokemonRecyclerViewAdapter.notifyDataSetChanged();
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-
-        queue.add(jsonObjectRequest);
-        return pokemon;
-
     }
 
     // Retrieves all pokemon to display on application start up

@@ -30,6 +30,7 @@ public class DetailActivity extends AppCompatActivity {
     private TextView heightTextView;
     private TextView weightTextView;
     private TextView evolvesFromTextView;
+    private TextView genusTextView;
 
     private RequestQueue requestQueue;
 
@@ -57,13 +58,18 @@ public class DetailActivity extends AppCompatActivity {
                 try {
 
                     // Getting flavor text
-                    JSONArray flavorTextArray = pokemonObject.getJSONArray("flavor_text_entries");
-                    flavorTextView.setText(flavorTextArray.getJSONObject(2).getString("flavor_text"));
+                    //JSONArray flavorTextArray = pokemonObject.getJSONArray("flavor_text_entries");
+                    //flavorTextView.setText(flavorTextArray.getJSONObject(2).getString("flavor_text"));
 
                     // Getting previous pokemon from evolution
-                    if (pokemonObject.getString("evolves_from_species") != null) {
-                        evolvesFromTextView.setText(pokemonObject.getString("evolves_from_species").toUpperCase());
-                    }
+                   // if (pokemonObject.getString("evolves_from_species") != null) {
+                      //  evolvesFromTextView.setText(pokemonObject.getString("evolves_from_species"));
+                    //}
+
+                    // Getting genus type
+                    JSONArray genusArray = pokemonObject.getJSONArray("genera");
+                    String genus = genusArray.getJSONObject(2).getString("genus");
+                    genusTextView.setText(genus);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -73,9 +79,11 @@ public class DetailActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Log.d("volley error", error.toString());
             }
         });
+
+        requestQueue.add(jsonObjectRequest);
 
     }
 
@@ -100,13 +108,17 @@ public class DetailActivity extends AppCompatActivity {
     private void setUpUI() {
 
         pokemonImageView = findViewById(R.id.detailImageViewId);
+        nameTextView = findViewById(R.id.detailNameId);
+        genusTextView = findViewById(R.id.detailGenusId);
 
-        // Setting index num
+        // Setting name and index number textview
         String indexNum = String.format("%3s", pokemon.getIndexNum());
         indexNum = indexNum.replace(' ', '0');
+        String detailName = indexNum + " " + pokemon.getName();
+        nameTextView.setText(detailName);
 
+        // Setting photo
         Picasso.with(getApplicationContext()).load(pokemon.getImage()).into(pokemonImageView);
-        //nameTextView.setText("#" + indexNum + " - " + pokemon.getName().toUpperCase());
 
     }
 }

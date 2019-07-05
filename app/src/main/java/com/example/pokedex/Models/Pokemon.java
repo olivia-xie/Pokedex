@@ -16,6 +16,7 @@ public class Pokemon implements Serializable {
     private ArrayList<String> type;
     private String flavorText;
     private String evolvesFrom;
+    private String genus;
 
     // Constructor
     public Pokemon() {
@@ -95,6 +96,14 @@ public class Pokemon implements Serializable {
 
     public void setEvolvesFrom(String evolvesFrom) {
         this.evolvesFrom = evolvesFrom;
+    }
+
+    public String getGenus() {
+        return genus;
+    }
+
+    public void setGenus(String genus) {
+        this.genus = genus;
     }
 }
 
