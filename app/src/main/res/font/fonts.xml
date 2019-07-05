@@ -16,4 +16,9 @@
         android:fontWeight="400"
         android:font="@font/joystix" />
 
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="400"
+        android:font="@font/orange_kid" />
+
 </font-family>

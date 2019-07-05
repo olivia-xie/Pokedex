@@ -45,6 +45,7 @@ public class DetailActivity extends AppCompatActivity {
 
         setUpUI();
         getPokemonSpeciesDetails(pokemon.getName());
+        getPokemonDetails(pokemon.getName());
 
     }
 
@@ -57,13 +58,22 @@ public class DetailActivity extends AppCompatActivity {
 
                 try {
 
-                    // Getting flavor text
-                    //JSONArray flavorTextArray = pokemonObject.getJSONArray("flavor_text_entries");
-                    //flavorTextView.setText(flavorTextArray.getJSONObject(2).getString("flavor_text"));
+                    // Getting flavour text
+                    JSONArray allFlavorTextArray = pokemonObject.getJSONArray("flavor_text_entries");
+                    for (int i = 0; i < allFlavorTextArray.length(); i++) {
+
+                        JSONObject flavorTextObject = allFlavorTextArray.getJSONObject(i);
+                        JSONObject langObject = flavorTextObject.getJSONObject("language");
+                        String language = langObject.getString("name");
+                        if (language.equals("en")) {
+                            String flavorText = flavorTextObject.getString("flavor_text").replace('\n', ' ');
+                            flavorTextView.setText(flavorText);
+                        }
+                    }
 
                     // Getting previous pokemon from evolution
-                   // if (pokemonObject.getString("evolves_from_species") != null) {
-                      //  evolvesFromTextView.setText(pokemonObject.getString("evolves_from_species"));
+                    // if (pokemonObject.getString("evolves_from_species") != null) {
+                    //  evolvesFromTextView.setText(pokemonObject.getString("evolves_from_species"));
                     //}
 
                     // Getting genus type
@@ -94,6 +104,23 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject pokemonObject) {
 
+                try {
+
+                    // getting height
+                    String heightStr = pokemonObject.getString("height");
+                    int heightNum = Integer.parseInt(heightStr);
+                    heightNum *= 10;
+                    heightTextView.setText(heightNum + " CM");
+
+                    // getting weight
+                    String weightStr = pokemonObject.getString("weight");
+                    int weightNum = Integer.parseInt(weightStr);
+                    weightNum /= 10;
+                    weightTextView.setText(weightNum + " KG");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -102,6 +129,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+        requestQueue.add(jsonObjectRequest);
     }
 
     // Sets views and other UI stuff
@@ -110,6 +138,9 @@ public class DetailActivity extends AppCompatActivity {
         pokemonImageView = findViewById(R.id.detailImageViewId);
         nameTextView = findViewById(R.id.detailNameId);
         genusTextView = findViewById(R.id.detailGenusId);
+        heightTextView = findViewById(R.id.heightId);
+        weightTextView = findViewById(R.id.weightId);
+        flavorTextView = findViewById(R.id.flavorTextId);
 
         // Setting name and index number textview
         String indexNum = String.format("%3s", pokemon.getIndexNum());

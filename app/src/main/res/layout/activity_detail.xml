@@ -13,8 +13,8 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/checkered_bg"
-        tools:layout_editor_absoluteX="45dp"
-        tools:layout_editor_absoluteY="29dp" />
+        tools:layout_editor_absoluteX="-16dp"
+        tools:layout_editor_absoluteY="0dp" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/imageCardView"
@@ -43,10 +43,9 @@
 
             <ImageView
                 android:id="@+id/detailImageViewId"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
                 android:background="@drawable/stripe_background" />
-
 
         </android.support.v7.widget.CardView>
 
@@ -65,10 +64,10 @@
         android:paddingLeft="20dp"
         app:cardBackgroundColor="@color/colorPrimaryLight"
         app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:elevation="0dp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -78,8 +77,8 @@
                 android:id="@+id/pokeballId"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/pokeball_pixel"
-                android:padding="10dp"/>
+                android:padding="10dp"
+                android:src="@drawable/pokeball_pixel" />
 
             <TextView
                 android:id="@+id/detailNameId"
@@ -87,10 +86,10 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/pokeballId"
                 android:fontFamily="@font/joystix"
-                android:text="POKEMON NAME"
-                android:textSize="14sp"
                 android:paddingTop="8dp"
-                android:textAllCaps="true"/>
+                android:text="POKEMON NAME"
+                android:textAllCaps="true"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/detailGenusId"
@@ -99,16 +98,137 @@
                 android:layout_below="@id/pokeballId"
                 android:layout_marginTop="3dp"
                 android:fontFamily="@font/joystix"
+                android:foregroundGravity="left"
                 android:paddingLeft="20dp"
                 android:paddingBottom="10dp"
                 android:text="GENUS TYPE"
                 android:textAllCaps="true"
-                android:textSize="13sp"
-                android:foregroundGravity="left"/>
+                android:textSize="13sp" />
 
         </RelativeLayout>
 
+    </android.support.v7.widget.CardView>
 
+    <android.support.v7.widget.CardView
+        android:layout_width="259dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginLeft="172dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginBottom="411dp"
+        app:cardBackgroundColor="#83FFFFFF"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
+        app:cardPreventCornerOverlap="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/ht"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/joystix"
+                android:paddingLeft="30dp"
+                android:paddingTop="5dp"
+                android:text="HT"
+                android:textAllCaps="true"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/wt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ht"
+                android:fontFamily="@font/joystix"
+                android:paddingLeft="30dp"
+                android:paddingTop="13dp"
+                android:text="WT"
+                android:textAllCaps="true"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/heightId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/ht"
+                android:fontFamily="@font/joystix"
+                android:paddingLeft="60dp"
+                android:paddingTop="5dp"
+                android:text="HEIGHT"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/weightId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/heightId"
+                android:layout_toRightOf="@id/wt"
+                android:fontFamily="@font/joystix"
+                android:paddingLeft="60dp"
+                android:paddingTop="13dp"
+                android:text="WEIGHT"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="355dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="204dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="298dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="#80A8F0"
+        app:cardCornerRadius="15dp">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="275dp"
+            android:layout_height="100dp"
+            app:cardBackgroundColor="#FFFFFF"
+            android:layout_gravity="center"
+            app:cardElevation="0dp">
+
+            <TextView
+                android:id="@+id/flavorTextId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="9dp"
+                android:paddingRight="5dp"
+                android:paddingTop="3dp"
+                android:text="Flavour Text"
+                android:fontFamily="@font/orange_kid"
+                android:textSize="23sp"
+                android:textColor="#C3000000"
+                />
+        </android.support.v7.widget.CardView>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/flavor_text_ovals"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="10dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:src="@drawable/flavor_text_ovals"
+            android:paddingRight="10dp"/>
     </android.support.v7.widget.CardView>
 
 
