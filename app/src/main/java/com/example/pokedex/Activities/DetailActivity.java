@@ -21,6 +21,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static com.example.pokedex.Utility.Constants.ERROR_MESSAGE;
+import static com.example.pokedex.Utility.StringFunctions.formatList;
+
 public class DetailActivity extends AppCompatActivity {
 
     private Pokemon pokemon;
@@ -31,6 +34,10 @@ public class DetailActivity extends AppCompatActivity {
     private TextView weightTextView;
     private TextView evolvesFromTextView;
     private TextView genusTextView;
+    private TextView abilitiesTextView;
+    private TextView typeTextView;
+    private TextView captureRateTextView;
+    private TextView baseHappinessTextView;
 
     private RequestQueue requestQueue;
 
@@ -71,15 +78,27 @@ public class DetailActivity extends AppCompatActivity {
                         }
                     }
 
-                    // Getting previous pokemon from evolution
-                    // if (pokemonObject.getString("evolves_from_species") != null) {
-                    //  evolvesFromTextView.setText(pokemonObject.getString("evolves_from_species"));
-                    //}
+                    // Getting pokemon from previous evolution
+                    try {
+
+                        evolvesFromTextView.setText(pokemonObject.getJSONObject("evolves_from_species").getString("name"));
+                    } catch (JSONException e) {
+
+                        if (e.getMessage().equals(ERROR_MESSAGE)); {
+                            evolvesFromTextView.setText("None");
+                        }
+                    }
 
                     // Getting genus type
                     JSONArray genusArray = pokemonObject.getJSONArray("genera");
                     String genus = genusArray.getJSONObject(2).getString("genus");
                     genusTextView.setText(genus);
+
+                    // Getting capture rate
+                    captureRateTextView.setText(pokemonObject.getString("capture_rate"));
+
+                    // Getting base happiness
+                    baseHappinessTextView.setText(pokemonObject.getString("base_happiness"));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -141,6 +160,11 @@ public class DetailActivity extends AppCompatActivity {
         heightTextView = findViewById(R.id.heightId);
         weightTextView = findViewById(R.id.weightId);
         flavorTextView = findViewById(R.id.flavorTextId);
+        evolvesFromTextView = findViewById(R.id.evolvesFromTextViewId);
+        captureRateTextView = findViewById(R.id.captureRateTextViewId);
+        baseHappinessTextView = findViewById(R.id.baseHappinessTextViewId);
+        abilitiesTextView = findViewById(R.id.abilitiesTextViewId);
+        typeTextView = findViewById(R.id.typeTextViewId);
 
         // Setting name and index number textview
         String indexNum = String.format("%3s", pokemon.getIndexNum());
@@ -150,6 +174,16 @@ public class DetailActivity extends AppCompatActivity {
 
         // Setting photo
         Picasso.with(getApplicationContext()).load(pokemon.getImage()).into(pokemonImageView);
+
+        // setting abilities
+        String abilitiesText = "";
+        abilitiesText = formatList(pokemon.getAbilities(), abilitiesText);
+        abilitiesTextView.setText(abilitiesText);
+
+        // setting type
+        String typeText = "";
+        typeText = formatList(pokemon.getType(), typeText);
+        typeTextView.setText(typeText);
 
     }
 }

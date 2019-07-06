@@ -49,7 +49,6 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/imageCardView"
                 android:paddingLeft="15dp"
-                android:text="# Pokedex Id"
                 android:textStyle="bold"
                 android:fontFamily="@font/joystix"
                 android:textSize="13sp"/>
@@ -62,7 +61,6 @@
                 android:layout_toRightOf="@id/imageCardView"
                 android:paddingLeft="15dp"
                 android:paddingTop="5dp"
-                android:text="Pokemon Name"
                 android:textStyle="bold"
                 android:fontFamily="@font/joystix"
                 android:textSize="13sp"/>
@@ -75,7 +73,6 @@
                 android:layout_toRightOf="@id/imageCardView"
                 android:paddingLeft="15dp"
                 android:paddingTop="5dp"
-                android:text="Abilities:"
                 android:fontFamily="@font/joystix"
                 android:textSize="11sp"
                 android:lineSpacingExtra="3dp"/>
@@ -88,7 +85,6 @@
                 android:layout_toRightOf="@id/imageCardView"
                 android:paddingLeft="15dp"
                 android:paddingTop="5dp"
-                android:text="Type"
                 android:fontFamily="@font/joystix"
                 android:textSize="11sp"/>
 

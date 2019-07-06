@@ -7,4 +7,6 @@ public class Constants {
     public static final String URL_RIGHT = "/";
     public static final int NUM_POKEMON = 50;
 
+    public static final String ERROR_MESSAGE = "Value null at evolves_from_species of type org.json.JSONObject$1 cannot be converted to JSONObject";
+
 }

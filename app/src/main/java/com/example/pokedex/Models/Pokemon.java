@@ -17,6 +17,8 @@ public class Pokemon implements Serializable {
     private String flavorText;
     private String evolvesFrom;
     private String genus;
+    private String captureRate;
+    private String baseHappiness;
 
     // Constructor
     public Pokemon() {
@@ -104,6 +106,22 @@ public class Pokemon implements Serializable {
 
     public void setGenus(String genus) {
         this.genus = genus;
+    }
+
+    public String getCaptureRate() {
+        return captureRate;
+    }
+
+    public void setCaptureRate(String captureRate) {
+        this.captureRate = captureRate;
+    }
+
+    public String getBaseHappiness() {
+        return baseHappiness;
+    }
+
+    public void setBaseHappiness(String baseHappiness) {
+        this.baseHappiness = baseHappiness;
     }
 }
 
