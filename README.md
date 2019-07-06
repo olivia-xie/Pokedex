@@ -16,3 +16,7 @@ An android application which acts as a Pokedex.
 **3. See Pokemon details**
 
 ![See pokemon details](/Screenshots/detailed_activity.jpg)
+
+# Built With
+
+Java, XML, Pokeapi in Android Studio
