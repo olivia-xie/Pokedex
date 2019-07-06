@@ -19,17 +19,17 @@
                 android:text="@string/search_text"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/joystix"/>
 
             <EditText
                 android:id="@+id/searchEdit"
                 android:layout_below="@id/titleText"
-                android:textStyle="italic"
                 android:hint="@string/search_hint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textNoSuggestions"
-                android:textIsSelectable="false"/>
+                android:textIsSelectable="false"
+                android:fontFamily="@font/orange_kid"/>
 
             <Button
                 android:id="@+id/submitButton"
@@ -39,7 +39,8 @@
                 android:textStyle="bold"
                 android:background="@color/colorAccent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/joystix"/>
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>
