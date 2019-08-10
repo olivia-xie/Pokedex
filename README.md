@@ -19,4 +19,5 @@ An android application which acts as a Pokedex.
 
 # Built With
 
-Java, XML, Pokeapi in Android Studio
+* Java, XML in Android Studio
+* [PokeApi](https://pokeapi.co/)
