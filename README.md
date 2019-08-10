@@ -2,7 +2,7 @@
 
 An android application which acts as a Pokedex.
 
-# Features
+## Features
 
 **1. View all Pokemon**
 
@@ -17,7 +17,7 @@ An android application which acts as a Pokedex.
 
 ![See pokemon details](/Screenshots/detailed_activity.jpg)
 
-# Built With
+## Built With
 
 * Java, XML in Android Studio
 * [PokeApi](https://pokeapi.co/)
